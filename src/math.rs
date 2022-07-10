@@ -1,3 +1,4 @@
+pub mod complex_scalar;
 pub mod ecc;
 pub mod field;
 pub mod matrix;

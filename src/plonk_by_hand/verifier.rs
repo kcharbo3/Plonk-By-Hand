@@ -1,5 +1,6 @@
 use crate::field::Field;
-use crate::math::ecc::{ComplexScalar, ECC};
+use crate::math::complex_scalar::ComplexScalar;
+use crate::math::ecc::ECC;
 use crate::math::pairing;
 use crate::math::polynomial::Polynomial;
 use crate::plonk_by_hand::constants;

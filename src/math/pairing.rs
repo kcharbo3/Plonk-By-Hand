@@ -1,6 +1,6 @@
-use crate::math::ecc::ComplexScalar;
 use crate::constants;
-use crate::{CurvePoint, ExtensionCurvePoint, ECC, Field};
+use crate::math::complex_scalar::ComplexScalar;
+use crate::{CurvePoint, ExtensionCurvePoint, Field, ECC};
 
 pub struct Pairing {
     pub r: u32,
@@ -58,7 +58,7 @@ impl Pairing {
         let p16 = self.ecc.multiply(16, p);
         let pminus = self.ecc.inversion(p);
         let (f17_x, f17_y, f17_constant) = self.ecc.get_line_between_points(&p16, &pminus);
-        
+
         ComplexScalar::multiply(
             &self.ecc.field,
             &f16,
