@@ -257,7 +257,7 @@ fn test_inverse() {
         vec![1, 16, 1, 1],
         vec![16, 1, 1, 1],
     ];
-    let mut adj = get_adjugate_matrix_4x4(&m, &field);
+    let adj = get_adjugate_matrix_4x4(&m, &field);
     let expected_adj = vec![
         vec![13, 13, 13, 4],
         vec![13, 13, 4, 13],

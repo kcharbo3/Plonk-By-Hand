@@ -193,10 +193,8 @@ impl Circuit {
                     result.push(self.coset1[k]);
                 } else if self.gates[k].output_index == left_index {
                     result.push(self.coset2[k]);
-                } else if self.gates[k].left_index == left_index {
-                    if k != i {
-                        result.push(self.roots[k]);
-                    }
+                } else if self.gates[k].left_index == left_index && k != i {
+                    result.push(self.roots[k]);
                 }
             }
         }
@@ -231,10 +229,8 @@ impl Circuit {
                     result.push(self.roots[k]);
                 } else if self.gates[k].right_index == output_index {
                     result.push(self.coset1[k]);
-                } else if self.gates[k].output_index == output_index {
-                    if k != i {
-                        result.push(self.coset2[k]);
-                    }
+                } else if self.gates[k].output_index == output_index && k != i {
+                    result.push(self.coset2[k]);
                 }
             }
         }

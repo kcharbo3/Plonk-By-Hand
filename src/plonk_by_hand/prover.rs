@@ -1,5 +1,5 @@
 use crate::field::Field;
-use crate::math::ecc::{CurvePoint, ExtensionCurvePoint, ECC};
+use crate::math::ecc::{CurvePoint, ECC};
 use crate::math::polynomial::Polynomial;
 use crate::plonk_by_hand::constants;
 use crate::plonk_by_hand::proof::{OpeningEvals, Proof, ProverPolys};
@@ -140,7 +140,7 @@ impl Prover {
         self.prover_polys.t_hi = Polynomial {
             degree: num_coefficients - 1,
             coefficients: t_hi_coefficients,
-            field: t.field.clone(),
+            field: t.field,
         };
     }
 
@@ -354,7 +354,7 @@ impl Prover {
         for i in 0..z_at_w_x.coefficients.len() {
             z_at_w_x.coefficients[i] = self.field.multiply(
                 self.field
-                    .exponent(self.py_circuit.circuit.roots[1], u32::from(i as u32)),
+                    .exponent(self.py_circuit.circuit.roots[1], i as u32),
                 self.prover_polys.z.coefficients[i],
             );
         }
@@ -654,7 +654,7 @@ impl Prover {
 }
 
 fn test_setup_prover() -> Prover {
-    let mut srs = constants::SRS_BY_HAND.clone();
+    let mut srs = constants::SRS_BY_HAND;
     srs.generate_g_1_points();
 
     let mut prover = Prover::new(constants::FIELD_17.clone(), vec![3, 4, 5], srs);

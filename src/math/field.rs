@@ -55,7 +55,7 @@ impl Field {
 
     pub fn vector_dot(&self, a: &ArrayView1<u32>, b: &ArrayView1<u32>) -> u32 {
         let mut result = 0;
-        for (index, val) in a.indexed_iter() {
+        for (index, _val) in a.indexed_iter() {
             result = self.add(result, self.multiply(a[index], b[index]));
         }
 

@@ -1,6 +1,6 @@
 use crate::math::ecc::ComplexScalar;
-use crate::plonk_by_hand::constants;
-use crate::{CurvePoint, ExtensionCurvePoint, Field, ECC};
+use crate::constants;
+use crate::{CurvePoint, ExtensionCurvePoint, ECC, Field};
 
 pub struct Pairing {
     pub r: u32,
@@ -56,16 +56,16 @@ impl Pairing {
         );
 
         let p16 = self.ecc.multiply(16, p);
-        let pminus = self.ecc.inversion(&p);
+        let pminus = self.ecc.inversion(p);
         let (f17_x, f17_y, f17_constant) = self.ecc.get_line_between_points(&p16, &pminus);
-        let f17 = ComplexScalar::multiply(
+        
+        ComplexScalar::multiply(
             &self.ecc.field,
             &f16,
             &self
                 .ecc
                 .plug_extension_point_in_equation(q, f17_x, f17_y, f17_constant),
-        );
-        f17
+        )
     }
 }
 
@@ -78,7 +78,7 @@ fn test_f_17() {
         },
     };
 
-    let mut srs = constants::SRS_BY_HAND.clone();
+    let mut srs = constants::SRS_BY_HAND;
     srs.generate_g_1_points();
     srs.generate_g_2_points();
 
@@ -101,7 +101,7 @@ fn test_get_base_pairing() {
         },
     };
 
-    let mut srs = constants::SRS_BY_HAND.clone();
+    let mut srs = constants::SRS_BY_HAND;
     srs.generate_g_1_points();
     srs.generate_g_2_points();
 

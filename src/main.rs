@@ -14,7 +14,7 @@ use crate::plonk_by_hand::verifier::Verifier;
 use math::field;
 
 fn main() {
-    let mut srs = constants::SRS_BY_HAND.clone();
+    let mut srs = constants::SRS_BY_HAND;
     srs.generate_g_1_points();
     srs.generate_g_2_points();
 
@@ -30,9 +30,9 @@ fn main() {
     prover.set_public_coin(pub_coin.clone());
     let proof = prover.generate_proof();
 
-    let mut verifier = Verifier::new(field.clone(), srs.copy());
+    let mut verifier = Verifier::new(field, srs.copy());
     verifier.preprocess();
-    verifier.provide_proof(pub_coin.clone(), proof);
+    verifier.provide_proof(pub_coin, proof);
 
     assert!(verifier.verify_proof());
 }

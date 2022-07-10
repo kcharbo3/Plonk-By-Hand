@@ -155,7 +155,7 @@ impl Polynomial {
             q = Polynomial::poly_add(&q, &t);
             r = Polynomial::poly_add(
                 &r,
-                &Polynomial::additive_inverse_poly(&Polynomial::poly_multiply(&t, &poly2)),
+                &Polynomial::additive_inverse_poly(&Polynomial::poly_multiply(&t, poly2)),
             );
         }
 
@@ -248,7 +248,7 @@ impl Polynomial {
             });
         }
 
-        Polynomial::create_poly_from_points(points, &field)
+        Polynomial::create_poly_from_points(points, field)
     }
 }
 
@@ -285,7 +285,7 @@ fn test_poly_multiply() {
     let poly2 = Polynomial {
         degree: 2,
         coefficients: vec![6, 14, 2],
-        field: field.clone(),
+        field: field,
     };
 
     let actual_poly = Polynomial::poly_multiply(&poly1, &poly2);
@@ -306,7 +306,7 @@ fn test_poly_divide() {
     let poly2 = Polynomial {
         degree: 1,
         coefficients: vec![3, 1],
-        field: field.clone(),
+        field: field,
     };
 
     let (quotient, remainder) = Polynomial::poly_divide(&poly1, &poly2);

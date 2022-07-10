@@ -37,7 +37,7 @@ impl ComplexScalar {
         c1.constant == c2.constant && c1.u_term == c2.u_term
     }
 
-    pub fn exponent(field: &Field, c: &ComplexScalar, mut exponent: u32) -> ComplexScalar {
+    pub fn exponent(field: &Field, c: &ComplexScalar, exponent: u32) -> ComplexScalar {
         let mut curr = 2;
         let mut res = ComplexScalar {
             constant: c.constant,
@@ -51,7 +51,7 @@ impl ComplexScalar {
 
         curr /= 2;
         while curr < exponent {
-            res = ComplexScalar::multiply(field, &c, &res);
+            res = ComplexScalar::multiply(field, c, &res);
             curr += 1;
         }
 
@@ -198,7 +198,7 @@ impl ECC {
     // 15G = 14 (G) -> 7 (2G) ->
     // 15G = G + 14G
     pub fn multiply(&self, scalar: u32, p1: &CurvePoint) -> CurvePoint {
-        return if scalar == 0 {
+        if scalar == 0 {
             CurvePoint::point_at_infinity()
         } else if scalar == 1 {
             p1.clone()
@@ -207,7 +207,7 @@ impl ECC {
             self.multiply(scalar / 2, &doubled)
         } else {
             self.add(p1, &self.multiply(scalar - 1, &p1.clone()))
-        };
+        }
     }
 
     // outputs x factor, y factor, and constant -> for y^2
@@ -265,7 +265,7 @@ impl ECC {
     ) -> u32 {
         let mut ans = 0;
         for i in 1..order {
-            let new_point = self.multiply(i, &generator);
+            let new_point = self.multiply(i, generator);
             if CurvePoint::equals(p, &new_point) {
                 ans = i;
                 break;
@@ -285,21 +285,21 @@ fn test_multiply() {
     let expected_product1 = CurvePoint { x: 68, y: 74 };
     assert!(CurvePoint::equals(
         &ecc.double(&p1),
-        &expected_product1.clone()
+        &expected_product1
     ));
     assert!(CurvePoint::equals(
         &ecc.add(&p1, &p1),
-        &expected_product1.clone()
+        &expected_product1
     ));
     assert!(CurvePoint::equals(
         &ecc.multiply(2, &p1),
-        &expected_product1.clone()
+        &expected_product1
     ));
 
     let expected_product2 = CurvePoint { x: 1, y: 99 };
     assert!(CurvePoint::equals(
         &ecc.multiply(16, &p1),
-        &expected_product2.clone()
+        &expected_product2
     ));
 }
 

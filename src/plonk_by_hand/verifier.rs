@@ -510,7 +510,7 @@ impl Verifier {
 fn test_setup_verifier_with_proof() -> Verifier {
     let field_17 = constants::FIELD_17.clone();
 
-    let mut srs = constants::SRS_BY_HAND.clone();
+    let mut srs = constants::SRS_BY_HAND;
     srs.generate_g_1_points();
     srs.generate_g_2_points();
 
@@ -523,9 +523,9 @@ fn test_setup_verifier_with_proof() -> Verifier {
     let mut prover = Prover::new(field_17.clone(), vec![A, B, C], srs.copy());
     prover.set_public_coin(pub_coin.clone());
 
-    let mut verifier = Verifier::new(field_17.clone(), srs.copy());
+    let mut verifier = Verifier::new(field_17, srs.copy());
     verifier.preprocess();
-    verifier.provide_proof(pub_coin.clone(), prover.generate_proof());
+    verifier.provide_proof(pub_coin, prover.generate_proof());
     verifier
 }
 
