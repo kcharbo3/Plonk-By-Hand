@@ -1,6 +1,3 @@
-use ndarray::ArrayView1;
-use rand::Rng;
-
 // Note: Does not handle overflows
 #[derive(Clone)]
 pub struct Field {
@@ -51,18 +48,5 @@ impl Field {
             }
         }
         inv
-    }
-
-    pub fn vector_dot(&self, a: &ArrayView1<u32>, b: &ArrayView1<u32>) -> u32 {
-        let mut result = 0;
-        for (index, _val) in a.indexed_iter() {
-            result = self.add(result, self.multiply(a[index], b[index]));
-        }
-
-        result
-    }
-
-    pub fn get_random(&self) -> u32 {
-        rand::thread_rng().gen_range(0..self.order)
     }
 }
